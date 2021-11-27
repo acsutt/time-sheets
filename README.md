@@ -5,6 +5,7 @@ A Time Sheets application using MEVN stack
 
 ## Start the project.
 ```
+Install Mongodb and NodeJS
 
 Get inside the project
 cd time-sheets
@@ -27,4 +28,4 @@ mongo
 Start node server on http://localhost:4000/api 
 nodemon
 
-```
+

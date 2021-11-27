@@ -8,13 +8,14 @@ const { SECRET } = require('../constants');
 let UserModel = require('../models/User');
 
 userRoute.route('/register').post( async (req, res, next) => {
-  let {name, username, password, email} = req.body;
+  let {name, username, password, email, admin} = req.body;
   password = await bcrypt.hash(password, 10);
   UserModel.create({
     name,
     username,
     password,
-    email
+    email,
+    admin
   }, (error, data) => {
     if (error) {
       return next(error)
