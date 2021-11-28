@@ -16,7 +16,7 @@
 
 <script>
     import axios from 'axios';
-    import LogActivity from '@/components/LogTime.vue';
+    import LogActivity from '@/components/TimeForm.vue';
 
     export default {
         components: {

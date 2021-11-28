@@ -61,6 +61,24 @@ const routes = [
     }
   },
   {
+    path: '/manage-users',
+    name: 'manage-users',
+    component: () => import('@/components/manageUsers'),
+    meta: {
+      title: 'Time Sheets - Manage Users',
+    },
+    beforeEnter
+  },
+  {
+    path: '/edit-user',
+    name: 'edit-user',
+    component: () => import('@/components/EditUser'),
+    meta: {
+      title: 'Time Sheets - Edit User',
+    },
+    beforeEnter
+  },
+  {
     path: '/calendar',
     name: 'calendar',
     component: () => import('@/components/Calendar'),

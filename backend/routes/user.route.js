@@ -52,8 +52,8 @@ userRoute.route('/').get((req, res, next) => {
 })
 
 //Edit
-userRoute.route('/edit-user/:id').get((req, res, next) => {
-   UserModel.findById(req.params.id, (error, data) => {
+userRoute.route('/edit-user/:id').get(async (req, res, next) => {
+  UserModel.findById(req.params.id, (error, data) => {
     if (error) {
       return next(error)
     } else {

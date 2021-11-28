@@ -1,96 +1,89 @@
 <template>
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card card-default">
-                <div class="card-header">Calendar</div>
-                <v-app>
-                    <v-sheet
-                        tile
-                        height="54"
-                        class="d-flex"
+    <v-app>
+        <v-sheet
+            tile
+            height="54"
+            class="d-flex"
+        >
+            <v-btn
+                icon
+                class="ma-2"
+                @click="$refs.calendar.prev()"
+            >
+                <v-icon>mdi-chevron-left</v-icon>
+            </v-btn>
+            <v-btn
+                class="ma-2"
+                @click="changeType"
+                label="Calendar View"
+                outlined
+            >
+                {{ this.type + 'ly view'}}
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn
+                icon
+                class="ma-2"
+                @click="$refs.calendar.next()"
+            >
+                <v-icon>mdi-chevron-right</v-icon>
+            </v-btn>
+        </v-sheet>
+        <v-sheet height="600">
+            <v-calendar
+                ref="calendar"
+                v-model="value"
+                :weekdays="weekday"
+                :type="type"
+                :events="events"
+                :event-overlap-mode="mode"
+                :event-overlap-threshold="30"
+                @change="getEvents"
+                @click:event="showEvent"
+                @click:more="viewWeek"
+                @click:date="viewWeek"
+            ></v-calendar>
+            <v-menu
+                v-model="selectedOpen"
+                :close-on-content-click="false"
+                :activator="selectedElement"
+                offset-x
+            >
+                <v-card
+                    color="grey lighten-4"
+                    min-width="350px"
+                    flat
+                >
+                    <v-toolbar
+                        :color="selectedEvent.color"
+                        dark
                     >
-                        <v-btn
-                            icon
-                            class="ma-2"
-                            @click="$refs.calendar.prev()"
-                        >
-                            <v-icon>mdi-chevron-left</v-icon>
-                        </v-btn>
-                        <v-btn
-                            class="ma-2"
-                            @click="changeType"
-                            label="Calendar View"
-                            outlined
-                        >
-                            {{ this.type + 'ly view'}}
-                        </v-btn>
+                        <router-link :to="{name: 'edit-activity', params: { id: selectedEvent.id }}">
+                            <v-icon>mdi-pencil</v-icon>
+                        </router-link>
                         <v-spacer></v-spacer>
-                        <v-btn
-                            icon
-                            class="ma-2"
-                            @click="$refs.calendar.next()"
-                        >
-                            <v-icon>mdi-chevron-right</v-icon>
+                        <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
+                        <v-spacer></v-spacer>
+                        <v-btn icon>
+                            <v-icon>mdi-dots-vertical</v-icon>
                         </v-btn>
-                    </v-sheet>
-                    <v-sheet height="600">
-                        <v-calendar
-                            ref="calendar"
-                            v-model="value"
-                            :weekdays="weekday"
-                            :type="type"
-                            :events="events"
-                            :event-overlap-mode="mode"
-                            :event-overlap-threshold="30"
-                            @change="getEvents"
-                            @click:event="showEvent"
-                            @click:more="viewWeek"
-                            @click:date="viewWeek"
-                        ></v-calendar>
-                        <v-menu
-                            v-model="selectedOpen"
-                            :close-on-content-click="false"
-                            :activator="selectedElement"
-                            offset-x
+                    </v-toolbar>
+                    <v-card-text>
+                        <span v-html="selectedEvent.desc"></span>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-btn
+                            text
+                            color="secondary"
+                            @click="selectedOpen = false"
                         >
-                            <v-card
-                                color="grey lighten-4"
-                                min-width="350px"
-                                flat
-                            >
-                                <v-toolbar
-                                    :color="selectedEvent.color"
-                                    dark
-                                >
-                                    <router-link :to="{name: 'edit-activity', params: { id: selectedEvent.id }}">
-                                        <v-icon>mdi-pencil</v-icon>
-                                    </router-link>
-                                    <v-spacer></v-spacer>
-                                    <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
-                                    <v-spacer></v-spacer>
-                                    <v-btn icon>
-                                        <v-icon>mdi-dots-vertical</v-icon>
-                                    </v-btn>
-                                </v-toolbar>
-                                <v-card-text>
-                                    <span v-html="selectedEvent.desc"></span>
-                                </v-card-text>
-                                <v-card-actions>
-                                    <v-btn
-                                        text
-                                        color="secondary"
-                                        @click="selectedOpen = false"
-                                    >
-                                        Cancel
-                                    </v-btn>
-                                </v-card-actions>
-                            </v-card>
-                        </v-menu>
-                    </v-sheet>
-                </v-app>
-            </div>
-        </div>
-    </div>
+                            Cancel
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-menu>
+        </v-sheet>
+    </v-app>
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <nav class="navbar navbar-dark bg-primary justify-content-between flex-nowrap flex-row">
+        <!-- <nav class="navbar navbar-dark bg-primary justify-content-between flex-nowrap flex-row">
             <div class="container">
                 <a class="navbar-brand pl-5 pr-2">Time Sheets</a>
                 <ul class="nav navbar-nav flex-row mr-auto">
@@ -32,73 +32,98 @@
                     </li>
                 </ul>
             </div>
-        </nav>
-
-        <v-app-bar
-            color="deep-purple accent-4"
-            dense
-            dark
-        >
-
-            <v-toolbar-title>Time Sheets</v-toolbar-title>
-
-            <v-spacer></v-spacer>
-            <router-link
-                class="nav-link pr-4"
-                to="/log-activity"
+        </nav> -->
+        <v-app>
+            <v-app-bar
+                color="accent-4"
+                dark
+                app
             >
-                <v-btn
-                    class="ma-2"
-                    color="primary"
-                    dark
+                <v-toolbar-title>Time Sheets</v-toolbar-title>
+                <v-spacer></v-spacer>
+
+                <router-link
+                    class="nav-link pr-4"
+                    to="/log-activity"
                 >
-                    Log Time
-                    <v-icon right>mdi-clock-plus-outline</v-icon>
-                </v-btn>
-            </router-link>
-            <router-link
-                class="nav-link pr-4"
-                to="/calendar"
-            >
-                <v-btn
-                    class="ma-2"
-                    color="primary"
-                    dark
-                >
-                    Calendar
-                    <v-icon right>mdi-calendar-month-outline</v-icon>
-                </v-btn>
-            </router-link>
-
-            <v-menu
-                left
-                bottom
-            >
-                <template v-slot:activator="{ on, attrs }">
                     <v-btn
-                        icon
-                        v-bind="attrs"
-                        v-on="on"
+                        class="ma-2"
+                        color="primary"
+                        dark
                     >
-                        <v-icon>mdi-account-outline</v-icon>
+                        Log Time
+                        <v-icon right>mdi-clock-plus-outline</v-icon>
                     </v-btn>
-                </template>
-
-                <v-list>
-                    <v-list-item
-                        v-for="n in 5"
-                        :key="n"
-                        @click="() => {}"
+                </router-link>
+                <router-link
+                    class="nav-link pr-4"
+                    to="/calendar"
+                >
+                    <v-btn
+                        class="ma-2"
+                        color="primary"
+                        dark
                     >
-                        <v-list-item-title>Option {{ n }}</v-list-item-title>
-                    </v-list-item>
-                </v-list>
-            </v-menu>
-        </v-app-bar>
+                        Calendar
+                        <v-icon right>mdi-calendar-month-outline</v-icon>
+                    </v-btn>
+                </router-link>
 
-        <div class="mt-5">
-            <router-view fluid></router-view>
-        </div>
+                <v-menu
+                    ref="menu"
+                    :close-on-content-click="true"
+                    transition="scale-transition"
+                    min-width="auto"
+                    origin="top right"
+                    class="deep-purple accent-4"
+                    dark
+                    left
+                    offset-y
+                >
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                            v-bind="attrs"
+                            v-on="on"
+                        >
+                            <v-icon>mdi-account-box-outline</v-icon>
+                        </v-btn>
+                    </template>
+                    <v-list>
+                        <v-list-item
+                            v-for="item in userItems"
+                            :key="item.title"
+                            link
+                        >
+                            <v-list-item-icon>
+                                <v-icon>{{ item.icon }}</v-icon>
+                            </v-list-item-icon>
+
+                            <v-list-item-content>
+                                <v-list-item-title>{{ item.title }}</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-btn
+                                @click="logOut"
+                                class="ma-2"
+                                color="primary"
+                                dark
+                            >
+                                Logout
+                                <v-icon right>mdi-logout-variant</v-icon>
+                            </v-btn>
+                        </v-list-item>
+
+                    </v-list>
+                </v-menu>
+            </v-app-bar>
+
+            <v-main>
+                <v-container fluid>
+                    <router-view fluid></router-view>
+                </v-container>
+            </v-main>
+        </v-app>
     </div>
 </template>
 
@@ -109,6 +134,11 @@
         data() {
             return {
                 signedIn: false,
+                userItems: [
+                    { title: 'Account', icon: 'mdi-account-box' },
+                    { title: 'Admin', icon: 'mdi-gavel' },
+                ],
+                drawer: null,
             };
         },
         name: 'App',
