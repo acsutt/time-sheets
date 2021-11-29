@@ -124,10 +124,24 @@
                         id: activity[1]._id,
                         name: activity[1].name,
                         desc: activity[1].description,
-                        start: activity[1].date.split('T')[0],
-                        end: activity[1].date.split('T')[0],
+                        start:
+                            activity[1].date.split('T')[0] +
+                            'T' +
+                            activity[1].startTime +
+                            ':00',
+                        end:
+                            activity[1].date.split('T')[0] +
+                            'T' +
+                            activity[1].endTime +
+                            ':00',
                         color: activity[1].color,
                     });
+                    console.log(
+                        'date and time' +
+                            activity[1].date.split('T')[0] +
+                            'T' +
+                            activity[1].startTime
+                    );
                 }
                 this.events = events;
             },

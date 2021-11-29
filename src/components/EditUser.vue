@@ -1,16 +1,14 @@
 <template>
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h3 class="text-center">Edit</h3>
-            <UserForm
-                :user="user"
-                @update-user="handleUpdateForm"
-            />
-            <button
-                @click.prevent="deleteUser(user._id)"
-                class="btn btn-danger"
-            >Delete</button>
-        </div>
+    <div id="app">
+        <h3 class="text-center">Edit</h3>
+        <UserForm
+            :user="user"
+            @update-user="handleUpdateForm"
+        />
+        <button
+            @click.prevent="deleteUser(user._id)"
+            class="btn btn-danger"
+        >Delete</button>
     </div>
 </template>
 

@@ -1,38 +1,5 @@
 <template>
     <div id="app">
-        <!-- <nav class="navbar navbar-dark bg-primary justify-content-between flex-nowrap flex-row">
-            <div class="container">
-                <a class="navbar-brand pl-5 pr-2">Time Sheets</a>
-                <ul class="nav navbar-nav flex-row mr-auto">
-                    <li class="nav-item">
-                        <router-link
-                            class="nav-link pr-4"
-                            to="/log-activity"
-                        >Log Activity</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link
-                            class="nav-link pr-4"
-                            to="/calendar"
-                        >Calendar</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link
-                            class="nav-link pr-4"
-                            to="/view"
-                        >View</router-link>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav flex-row ml-auto">
-                    <li class="nav-item pa-2">
-                        <v-btn
-                            class="nav-link"
-                            @click="logOut"
-                        >Logout</v-btn>
-                    </li>
-                </ul>
-            </div>
-        </nav> -->
         <v-app>
             <v-app-bar
                 color="accent-4"
@@ -50,6 +17,7 @@
                         class="ma-2"
                         color="primary"
                         dark
+                        v-if="signedIn"
                     >
                         Log Time
                         <v-icon right>mdi-clock-plus-outline</v-icon>
@@ -119,8 +87,9 @@
             </v-app-bar>
 
             <v-main>
-                <v-container fluid>
-                    <router-view fluid></router-view>
+
+                <v-container>
+                    <router-view></router-view>
                 </v-container>
             </v-main>
         </v-app>
@@ -132,8 +101,9 @@
 
     export default {
         data() {
+            const token = localStorage.getItem('token');
             return {
-                signedIn: false,
+                signedIn: !token == null,
                 userItems: [
                     { title: 'Account', icon: 'mdi-account-box' },
                     { title: 'Admin', icon: 'mdi-gavel' },
@@ -171,5 +141,6 @@
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
         color: #2c3e50;
+        overflow: hidden;
     }
 </style>

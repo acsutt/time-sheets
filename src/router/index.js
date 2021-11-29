@@ -26,7 +26,7 @@ const beforeEnter = (to, from, next) => {
     return true;
   }
   next({ path: '/'});
-  return false
+  return false;
 }
 
 const routes = [

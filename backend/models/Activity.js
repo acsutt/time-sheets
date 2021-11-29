@@ -8,10 +8,10 @@ let activitySchema = new Schema({
   description: {
     type: String
   },
-  duration: {
-    type: Number
-  },
   startTime: {
+    type: String
+  },
+  endTime: {
     type: String
   },
   date: {

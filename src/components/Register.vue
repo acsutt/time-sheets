@@ -1,13 +1,11 @@
 <template>
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h3 class="text-center">Register</h3>
-            <CreateUser
-                :user="user"
-                :Users="Users"
-                @update-user="handleSubmitForm"
-            />
-        </div>
+    <div id="app">
+        <h3 class="text-center">Register</h3>
+        <CreateUser
+            :user="user"
+            :Users="Users"
+            @update-user="handleSubmitForm"
+        />
     </div>
 </template>
 

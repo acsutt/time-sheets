@@ -1,12 +1,10 @@
 <template>
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h3 class="text-center">Log Time</h3>
-            <LogActivity
-                :activity="activity"
-                @update-activity="handleSubmitForm"
-            />
-        </div>
+    <div id="app">
+        <h3 class="text-center">Log Time</h3>
+        <LogActivity
+            :activity="activity"
+            @update-activity="handleSubmitForm"
+        />
     </div>
 </template>
 
@@ -23,8 +21,8 @@
                 activity: {
                     name: '',
                     description: '',
-                    duration: '',
                     startTime: '',
+                    endTime: '',
                     date: '',
                     color: '#000000',
                 },
@@ -42,8 +40,8 @@
                         this.activity = {
                             name: '',
                             description: '',
-                            duration: '',
                             startTime: '',
+                            endTime: '',
                             date: '',
                             color: '',
                         };

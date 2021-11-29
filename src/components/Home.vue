@@ -1,6 +1,6 @@
 <template>
-    <div class="row justify-content-center">
-        <div class="col-md-6">
+    <div id="app">
+        <v-app>
             <h3 class="text-center">Please sign in or create an account</h3>
             <div
                 class="btn-toolbar justify-content-center"
@@ -10,22 +10,22 @@
                     class="btn-group pr-3"
                     role="group"
                 >
-                    <button
-                        class="btn btn-success"
+                    <v-btn
+                        color="success"
                         @click="login"
-                    >Sign in</button>
+                    >Login</v-btn>
                 </div>
                 <div
                     class="btn-group pr-2"
                     role="group"
                 >
-                    <button
-                        class="btn btn-success"
+                    <v-btn
+                        color="success"
                         @click="register"
-                    >Register</button>
+                    >Register</v-btn>
                 </div>
             </div>
-        </div>
+        </v-app>
     </div>
 </template>
 <script>

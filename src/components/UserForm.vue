@@ -1,69 +1,72 @@
 <template>
-    <div id="app">
-        <v-app>
-            <v-form
-                ref="form"
-                @submit.prevent="handleSubmitForm"
-            >
-                <v-text-field
-                    v-model="user.name"
-                    label="Full name"
-                    prepend-icon="mdi-card-account-details-outline"
-                    :error-messages="nameErrors"
-                    @input="$v.user.name.$touch()"
-                    @blur="$v.user.name.$touch()"
+    <v-row class="justify-center align-center">
+        <v-col cols="6">
+            <v-app>
+                <v-form
+                    ref="form"
+                    @submit.prevent="handleSubmitForm"
                 >
-                </v-text-field>
+                    <v-text-field
+                        v-model="user.name"
+                        label="Full name"
+                        prepend-icon="mdi-card-account-details-outline"
+                        :error-messages="nameErrors"
+                        @input="$v.user.name.$touch()"
+                        @blur="$v.user.name.$touch()"
+                    >
+                    </v-text-field>
 
-                <v-text-field
-                    v-model="user.email"
-                    label="Email"
-                    prepend-icon="mdi-email-outline"
-                    :error-messages="emailErrors"
-                    @input="$v.user.email.$touch()"
-                    @blur="$v.user.email.$touch()"
-                >
-                </v-text-field>
+                    <v-text-field
+                        v-model="user.email"
+                        label="Email"
+                        prepend-icon="mdi-email-outline"
+                        :error-messages="emailErrors"
+                        @input="$v.user.email.$touch()"
+                        @blur="$v.user.email.$touch()"
+                    >
+                    </v-text-field>
 
-                <v-text-field
-                    v-model="user.username"
-                    label="Username"
-                    prepend-icon="mdi-account-outline"
-                    :error-messages="usernameErrors"
-                    @input="$v.user.username.$touch()"
-                    @blur="$v.user.username.$touch()"
-                >
-                </v-text-field>
+                    <v-text-field
+                        v-model="user.username"
+                        label="Username"
+                        prepend-icon="mdi-account-outline"
+                        :error-messages="usernameErrors"
+                        @input="$v.user.username.$touch()"
+                        @blur="$v.user.username.$touch()"
+                    >
+                    </v-text-field>
 
-                <v-text-field
-                    v-model="user.password"
-                    label="Password"
-                    prepend-icon="mdi-lock-outline"
-                    type="password"
-                    :error-messages="passwordErrors"
-                    @input="$v.user.password.$touch()"
-                    @blur="$v.user.password.$touch()"
-                >
-                </v-text-field>
+                    <v-text-field
+                        v-model="user.password"
+                        label="Password"
+                        prepend-icon="mdi-lock-outline"
+                        type="password"
+                        :error-messages="passwordErrors"
+                        @input="$v.user.password.$touch()"
+                        @blur="$v.user.password.$touch()"
+                    >
+                    </v-text-field>
 
-                <v-text-field
-                    v-model="user.confirmPassword"
-                    label="Confirm Password"
-                    prepend-icon="mdi-lock-outline"
-                    type="password"
-                    :error-messages="confirmPasswordErrors"
-                    @input="$v.user.confirmPassword.$touch()"
-                    @blur="$v.user.confirmPassword.$touch()"
-                >
-                </v-text-field>
+                    <v-text-field
+                        v-model="user.confirmPassword"
+                        label="Confirm Password"
+                        prepend-icon="mdi-lock-outline"
+                        type="password"
+                        :error-messages="confirmPasswordErrors"
+                        @input="$v.user.confirmPassword.$touch()"
+                        @blur="$v.user.confirmPassword.$touch()"
+                    >
+                    </v-text-field>
 
-                <v-btn
-                    color="success"
-                    @click="handleSubmitForm"
-                >Save</v-btn>
-            </v-form>
-        </v-app>
-    </div>
+                    <v-btn
+                        color="success"
+                        @click="handleSubmitForm"
+                    >Save</v-btn>
+                </v-form>
+            </v-app>
+        </v-col>
+    </v-row>
+
 </template>
 <script>
     import { required, email, minLength, sameAs } from 'vuelidate/lib/validators';
