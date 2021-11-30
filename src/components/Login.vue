@@ -98,7 +98,7 @@
                     .post(apiURL, this.user)
                     .then(res => {
                         if (!res.data) {
-                            alert('username or password rong');
+                            alert('The username or password was incorrect');
                             this.failed = true;
                             return;
                         }

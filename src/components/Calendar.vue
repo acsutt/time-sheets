@@ -4,6 +4,8 @@
             tile
             height="54"
             class="d-flex"
+            dark
+            border
         >
             <v-btn
                 icon
@@ -12,6 +14,7 @@
             >
                 <v-icon>mdi-chevron-left</v-icon>
             </v-btn>
+            <v-spacer></v-spacer>
             <v-btn
                 class="ma-2"
                 @click="changeType"
@@ -31,6 +34,8 @@
         </v-sheet>
         <v-sheet height="600">
             <v-calendar
+                dark
+                color="primary"
                 ref="calendar"
                 v-model="value"
                 :weekdays="weekday"
@@ -38,6 +43,9 @@
                 :events="events"
                 :event-overlap-mode="mode"
                 :event-overlap-threshold="30"
+                :first-time="'06:30'"
+                :interval-count=12
+                :interval-minutes="30"
                 @change="getEvents"
                 @click:event="showEvent"
                 @click:more="viewWeek"
@@ -94,7 +102,7 @@
             return {
                 Activities: [],
                 loggedActivities: [],
-                type: 'month',
+                type: 'week',
                 mode: 'stack',
                 weekday: [1, 2, 3, 4, 5, 6, 0],
                 value: '',
@@ -110,6 +118,7 @@
                 .get(apiURL)
                 .then(res => {
                     this.Activities = res.data;
+                    console.log;
                     this.getEvents();
                 })
                 .catch(error => {
@@ -120,28 +129,24 @@
             getEvents() {
                 const events = [];
                 for (const activity of Object.entries(this.Activities)) {
+                    let formatStartTime =
+                        activity[1].date.split('T')[0] +
+                        'T' +
+                        activity[1].startTime +
+                        ':00';
+                    let formatEndtTime =
+                        activity[1].date.split('T')[0] +
+                        'T' +
+                        activity[1].endTime +
+                        ':00';
                     events.push({
                         id: activity[1]._id,
                         name: activity[1].name,
                         desc: activity[1].description,
-                        start:
-                            activity[1].date.split('T')[0] +
-                            'T' +
-                            activity[1].startTime +
-                            ':00',
-                        end:
-                            activity[1].date.split('T')[0] +
-                            'T' +
-                            activity[1].endTime +
-                            ':00',
+                        start: formatStartTime,
+                        end: formatEndtTime,
                         color: activity[1].color,
                     });
-                    console.log(
-                        'date and time' +
-                            activity[1].date.split('T')[0] +
-                            'T' +
-                            activity[1].startTime
-                    );
                 }
                 this.events = events;
             },

@@ -49,6 +49,7 @@ l<template>
                             v-if="startTimeMenu"
                             v-model="activity.startTime"
                             full-width
+                            dark
                             @click:minute="$refs.startTimeMenu.save(activity.startTime)"
                         ></v-time-picker>
                     </v-menu>
@@ -80,6 +81,7 @@ l<template>
                             v-if="endTimeMenu"
                             v-model="activity.endTime"
                             full-width
+                            dark
                             @click:minute="$refs.endTimeMenu.save(activity.endTime)"
                         ></v-time-picker>
                     </v-menu>
@@ -111,6 +113,8 @@ l<template>
                             no-title
                             scrollable
                             show-adjacent-months
+                            first-day-of-week="1"
+                            dark
                         >
                         </v-date-picker>
                     </v-menu>
@@ -136,6 +140,8 @@ l<template>
                             v-model="activity.color"
                             no-title
                             scrollable
+                            dark
+                            mode="rgba"
                         >
                         </v-color-picker>
                     </v-menu>
@@ -143,7 +149,6 @@ l<template>
                     <v-btn
                         color="success"
                         @click="handleSubmitForm"
-                        type="submit"
                     >
                         Save
                         <v-icon right>mdi-check-circle-outline</v-icon>

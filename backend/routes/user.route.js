@@ -7,6 +7,15 @@ const { SECRET } = require('../constants');
 // model
 let UserModel = require('../models/User');
 
+const verifyUserToken = (req, res, next) => {
+  try {
+    req.user = jwt.verify(req.headers.authorization, SECRET);
+    return next();
+  } catch (error) {
+    console.log(error)
+    return res.status(401);
+  }
+}
 userRoute.route('/register').post( async (req, res, next) => {
   let {name, username, password, email, admin} = req.body;
   password = await bcrypt.hash(password, 10);
@@ -42,14 +51,19 @@ userRoute.route('/login').post( async (req, res) => {
 });
 
 userRoute.route('/').get((req, res, next) => {
-    UserModel.find((error, data) => {
-      if (error) {
-        return next(error)
-      } else {
-        res.json(data)
-      }
-    })
-})
+  UserModel.find((error, data) => {
+    if (error) {
+      return next(error)
+    } else {
+      res.json(data)
+    }
+  })
+});
+
+userRoute.route('/get-user').get(verifyUserToken, async (req, res) => {
+    const userModel = await UserModel.find({ _id: req.user._id })
+    res.json(userModel);
+});
 
 //Edit
 userRoute.route('/edit-user/:id').get(async (req, res, next) => {
@@ -76,7 +90,7 @@ userRoute.route('/update-user/:id').put((req, res, next) => {
   })
 })
 
-// Delete
+// Delete by id
 userRoute.route('/delete-user/:id').delete((req, res, next) => {
   UserModel.findByIdAndRemove(req.params.id, (error, data) => {
     if (error) {

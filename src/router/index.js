@@ -61,8 +61,8 @@ const routes = [
     }
   },
   {
-    path: '/manage-users',
-    name: 'manage-users',
+    path: '/manage-user',
+    name: 'manage-user',
     component: () => import('@/components/manageUsers'),
     meta: {
       title: 'Time Sheets - Manage Users',

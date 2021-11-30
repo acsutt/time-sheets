@@ -9,6 +9,8 @@
                 <v-toolbar-title>Time Sheets</v-toolbar-title>
                 <v-spacer></v-spacer>
 
+                <v-toolbar-title>Welcome {{signedInName}}</v-toolbar-title>
+                <v-spacer></v-spacer>
                 <router-link
                     class="nav-link pr-4"
                     to="/log-activity"
@@ -17,7 +19,6 @@
                         class="ma-2"
                         color="primary"
                         dark
-                        v-if="signedIn"
                     >
                         Log Time
                         <v-icon right>mdi-clock-plus-outline</v-icon>
@@ -58,17 +59,18 @@
                     </template>
                     <v-list>
                         <v-list-item
-                            v-for="item in userItems"
-                            :key="item.title"
+                            @click="$router.push('/manage-user')"
                             link
                         >
+
                             <v-list-item-icon>
-                                <v-icon>{{ item.icon }}</v-icon>
+                                <v-icon>mdi-account-box</v-icon>
                             </v-list-item-icon>
 
                             <v-list-item-content>
-                                <v-list-item-title>{{ item.title }}</v-list-item-title>
+                                <v-list-item-title>Account</v-list-item-title>
                             </v-list-item-content>
+
                         </v-list-item>
                         <v-list-item>
                             <v-btn
@@ -89,7 +91,8 @@
             <v-main>
 
                 <v-container>
-                    <router-view></router-view>
+                    <router-view>
+                    </router-view>
                 </v-container>
             </v-main>
         </v-app>
@@ -101,24 +104,20 @@
 
     export default {
         data() {
-            const token = localStorage.getItem('token');
             return {
-                signedIn: !token == null,
-                userItems: [
-                    { title: 'Account', icon: 'mdi-account-box' },
-                    { title: 'Admin', icon: 'mdi-gavel' },
-                ],
+                // signedIn: !token == null,,
                 drawer: null,
+                signedInName: '',
             };
         },
         name: 'App',
 
         created() {
-            let apiURL = 'http://localhost:4000/user-api';
+            let apiURL = 'http://localhost:4000/user-api/get-user';
             axios
                 .get(apiURL)
                 .then(res => {
-                    this.Users = res.data;
+                    this.signedInName = res.data[0].name;
                 })
                 .catch(error => {
                     console.log(error);

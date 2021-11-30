@@ -46,7 +46,7 @@
             };
         },
         created() {
-            let apiURL = 'http://localhost:4000/user-api';
+            let apiURL = 'http://localhost:4000/user-api/get-user/';
             axios
                 .get(apiURL)
                 .then(res => {

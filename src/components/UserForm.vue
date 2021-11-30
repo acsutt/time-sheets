@@ -57,7 +57,11 @@
                         @blur="$v.user.confirmPassword.$touch()"
                     >
                     </v-text-field>
-
+                    <v-btn
+                        v-if="this.crudType == 'edit'"
+                        color="error"
+                        @click="handleDelete"
+                    >Delete</v-btn>
                     <v-btn
                         color="success"
                         @click="handleSubmitForm"
@@ -72,12 +76,7 @@
     import { required, email, minLength, sameAs } from 'vuelidate/lib/validators';
 
     export default {
-        data() {
-            return {
-                submitted: false,
-            };
-        },
-        props: ['user', 'Users'],
+        props: ['user', 'Users', 'crudType'],
         validations: {
             user: {
                 name: { required },
@@ -87,7 +86,6 @@
                     minLength: minLength(4),
                     isUnique(username) {
                         for (let index in this.Users) {
-                            console.log(this.Users[index].username);
                             if (username === this.Users[index].username) {
                                 return false;
                             }
@@ -120,12 +118,13 @@
             },
             usernameErrors() {
                 const errors = [];
-                if (!this.$v.user.name.$dirty) return errors;
-                !this.$v.user.name.minength &&
-                    errors.push('Username must be at least 4 characters');
+                if (!this.$v.user.username.$dirty) return errors;
                 !this.$v.user.username.isUnique &&
                     errors.push('Username must be unique');
-                !this.$v.user.name.required && errors.push('Username is required');
+                !this.$v.user.username.minLength &&
+                    errors.push('Username must be at least 4 characters');
+                !this.$v.user.username.required &&
+                    errors.push('Username is required');
                 return errors;
             },
             passwordErrors() {
@@ -151,12 +150,14 @@
         },
         methods: {
             handleSubmitForm() {
-                this.submitted = true;
                 this.$v.$touch();
                 if (this.$v.$invalid) {
                     return;
                 }
                 this.$emit('update-user', this.user);
+            },
+            handleDelete() {
+                this.$emit('delete-user', this.user);
             },
         },
     };

@@ -1,30 +1,38 @@
 <template>
     <div id="app">
         <v-app>
-            <h3 class="text-center">Please sign in or create an account</h3>
-            <div
-                class="btn-toolbar justify-content-center"
-                role="toolbar"
+            <v-row
+                justify="center"
+                align="center"
             >
-                <div
-                    class="btn-group pr-3"
-                    role="group"
+                <v-card
+                    class="justify-center"
+                    color="accent-4"
+                    dark
                 >
-                    <v-btn
-                        color="success"
-                        @click="login"
-                    >Login</v-btn>
-                </div>
-                <div
-                    class="btn-group pr-2"
-                    role="group"
-                >
-                    <v-btn
-                        color="success"
-                        @click="register"
-                    >Register</v-btn>
-                </div>
-            </div>
+
+                    <v-card-title
+                        class="text-center"
+                        dark
+                    >
+                        <h2>Sign in or Create an Account</h2>
+                    </v-card-title>
+                    <v-card-actions class="justify-space-around">
+                        <v-btn
+                            color="primary"
+                            @click="login"
+                            x-large
+                        >Login</v-btn>
+                        <v-btn
+                            color="primary"
+                            @click="register"
+                            x-large
+                        >Register</v-btn>
+
+                    </v-card-actions>
+
+                </v-card>
+            </v-row>
         </v-app>
     </div>
 </template>

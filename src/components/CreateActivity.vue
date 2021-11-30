@@ -24,7 +24,7 @@
                     startTime: '',
                     endTime: '',
                     date: '',
-                    color: '#000000',
+                    color: '#1976D2',
                 },
                 submitted: false,
             };
@@ -32,7 +32,7 @@
         methods: {
             handleSubmitForm() {
                 let apiURL = 'http://localhost:4000/activity-api/create-activity';
-
+                console.log('here');
                 axios
                     .post(apiURL, this.activity)
                     .then(() => {

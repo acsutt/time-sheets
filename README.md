@@ -23,7 +23,7 @@ Install the required packages:
 npm install
 
 Start the mongodb server.
-mongo
+mongosh
 
 Start node server on http://localhost:4000/api 
 nodemon

@@ -3,12 +3,10 @@
         <h3 class="text-center">Edit</h3>
         <UserForm
             :user="user"
-            @update-user="handleUpdateForm"
+            :crudType="'edit'"
+            @update-user="handleUpdateForm(user._id)"
+            @delete-user="deleteUser(user._id)"
         />
-        <button
-            @click.prevent="deleteUser(user._id)"
-            class="btn btn-danger"
-        >Delete</button>
     </div>
 </template>
 
@@ -29,43 +27,35 @@
             };
         },
         created() {
-            let apiURL = `http://localhost:4000/user-api/edit-user/${this.$route.params.id}`;
+            let apiURL = `http://localhost:4000/user-api/get-user/`;
 
             axios.get(apiURL).then(res => {
-                this.user = res.data;
-                // this.oldPasswordHash = this.user.password;
+                this.user = res.data[0];
                 this.user.password = '';
             });
         },
         methods: {
-            handleUpdateForm() {
-                let apiURL = `http://localhost:4000/user-api/update-user/${this.$route.params.id}`;
-
-                // if (this.user.password == '') {
-                //     this.user.password = this.oldPasswordHash;
-                // }
+            handleUpdateForm(id) {
+                console.log(id);
+                let apiURL = `http://localhost:4000/user-api/update-user/${id}`;
 
                 axios
                     .put(apiURL, this.user)
                     .then(() => {
-                        this.$router.push('/manage-user');
+                        this.$router.push('/calendar');
                     })
                     .catch(error => {
                         console.log(error);
                     });
             },
-            deleteUser() {
-                let apiURL = `http://localhost:4000/user-api/delete-user/${this.$route.params.id}`;
-                let indexOfArrayItem = this.Users.findIndex(
-                    i => i._id === this.$route.params.id
-                );
+            deleteUser(id) {
+                let apiURL = `http://localhost:4000/user-api/delete-user/${id}`;
 
                 if (window.confirm('Do you really want to delete?')) {
                     axios
                         .delete(apiURL)
                         .then(() => {
-                            this.Users.splice(indexOfArrayItem, 1);
-                            this.$router.push('/manage-user');
+                            this.$router.push('/');
                         })
                         .catch(error => {
                             console.log(error);
