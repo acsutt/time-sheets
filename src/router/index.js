@@ -39,12 +39,6 @@ const routes = [
     }
   },
   {
-    path: '/view',
-    name: 'view',
-    component: () => import('../components/ListComponent'),
-    beforeEnter
-  },
-  {
     path: '/login',
     name: 'login',
     component: () => import('@/components/Login'),
@@ -63,7 +57,7 @@ const routes = [
   {
     path: '/manage-user',
     name: 'manage-user',
-    component: () => import('@/components/manageUsers'),
+    component: () => import('@/components/ManageUser'),
     meta: {
       title: 'Time Sheets - Manage Users',
     },
@@ -105,6 +99,15 @@ const routes = [
     },
     beforeEnter
   },
+  {
+    path: '/manage-activities',
+    name: 'manage-activities',
+    component: () => import('../components/ManageActivities'),
+    meta: {
+      title: 'Time Sheets - Edit',
+    },
+    beforeEnter
+  }
 ]
 
 

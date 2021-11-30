@@ -36,7 +36,6 @@
         },
         methods: {
             handleUpdateForm(id) {
-                console.log(id);
                 let apiURL = `http://localhost:4000/user-api/update-user/${id}`;
 
                 axios

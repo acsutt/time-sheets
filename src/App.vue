@@ -7,10 +7,7 @@
                 app
             >
                 <v-toolbar-title>Time Sheets</v-toolbar-title>
-                <v-spacer></v-spacer>
-
-                <v-toolbar-title>Welcome {{signedInName}}</v-toolbar-title>
-                <v-spacer></v-spacer>
+                <v-spacer />
                 <router-link
                     class="nav-link pr-4"
                     to="/log-activity"
@@ -62,15 +59,23 @@
                             @click="$router.push('/manage-user')"
                             link
                         >
-
                             <v-list-item-icon>
-                                <v-icon>mdi-account-box</v-icon>
+                                <v-icon>mdi-cog-outline</v-icon>
                             </v-list-item-icon>
-
                             <v-list-item-content>
                                 <v-list-item-title>Account</v-list-item-title>
                             </v-list-item-content>
-
+                        </v-list-item>
+                        <v-list-item
+                            @click="$router.push('/manage-activities')"
+                            link
+                        >
+                            <v-list-item-icon>
+                                <v-icon>mdi-calendar-edit</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>Manage Calendar</v-list-item-title>
+                            </v-list-item-content>
                         </v-list-item>
                         <v-list-item>
                             <v-btn
@@ -100,32 +105,15 @@
 </template>
 
 <script>
-    import axios from 'axios';
-
     export default {
         data() {
             return {
-                // signedIn: !token == null,,
                 drawer: null,
-                signedInName: '',
             };
         },
         name: 'App',
-
-        created() {
-            let apiURL = 'http://localhost:4000/user-api/get-user';
-            axios
-                .get(apiURL)
-                .then(res => {
-                    this.signedInName = res.data[0].name;
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        },
         methods: {
             logOut() {
-                this.signedIn = false;
                 localStorage.clear();
                 this.$router.push('/');
             },

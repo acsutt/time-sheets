@@ -32,7 +32,7 @@
                 <v-icon>mdi-chevron-right</v-icon>
             </v-btn>
         </v-sheet>
-        <v-sheet height="600">
+        <v-sheet height="100%">
             <v-calendar
                 dark
                 color="primary"
@@ -44,7 +44,7 @@
                 :event-overlap-mode="mode"
                 :event-overlap-threshold="30"
                 :first-time="'06:30'"
-                :interval-count=12
+                :interval-count=24
                 :interval-minutes="30"
                 @change="getEvents"
                 @click:event="showEvent"
@@ -72,14 +72,18 @@
                         <v-spacer></v-spacer>
                         <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
                         <v-spacer></v-spacer>
-                        <v-btn icon>
-                            <v-icon>mdi-dots-vertical</v-icon>
+                        <v-btn
+                            @click.prevent="deleteActivity(selectedEvent.id)"
+                            class="ml-3"
+                            color="error"
+                        >
+                            <v-icon>mdi-delete-outline</v-icon>
                         </v-btn>
                     </v-toolbar>
                     <v-card-text>
                         <span v-html="selectedEvent.desc"></span>
                     </v-card-text>
-                    <v-card-actions>
+                    <!-- <v-card-actions>
                         <v-btn
                             text
                             color="secondary"
@@ -87,7 +91,7 @@
                         >
                             Cancel
                         </v-btn>
-                    </v-card-actions>
+                    </v-card-actions> -->
                 </v-card>
             </v-menu>
         </v-sheet>
@@ -126,6 +130,24 @@
                 });
         },
         methods: {
+            deleteActivity(id) {
+                console.log(id);
+                let apiURL = `http://localhost:4000/activity-api/delete-activity/${id}`;
+                let indexOfArrayItem = this.Activities.findIndex(i => i._id === id);
+
+                if (window.confirm('Do you really want to delete?')) {
+                    axios
+                        .delete(apiURL)
+                        .then(() => {
+                            this.Activities.splice(indexOfArrayItem, 1);
+                            this.events.splice(indexOfArrayItem, 1);
+                            this.$router.push('/calendar');
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
+                }
+            },
             getEvents() {
                 const events = [];
                 for (const activity of Object.entries(this.Activities)) {

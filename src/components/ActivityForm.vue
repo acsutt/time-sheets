@@ -175,7 +175,15 @@ l<template>
             activity: {
                 name: { required, maxLength: maxLength(32) },
                 startTime: { required },
-                endTime: { required },
+                endTime: {
+                    required,
+                    isAfterStart(endTime, startTime) {
+                        if (startTime > endTime) {
+                            return true;
+                        }
+                        return true;
+                    },
+                },
                 date: { required },
             },
         },
@@ -201,6 +209,8 @@ l<template>
                 if (!this.$v.activity.endTime.$dirty) return errors;
                 !this.$v.activity.endTime.required &&
                     errors.push('End time is required');
+                !this.$v.activity.endTime.isAfterStart &&
+                    errors.push('End time must be after start time');
                 return errors;
             },
             dateErrors() {

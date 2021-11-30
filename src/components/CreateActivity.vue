@@ -10,7 +10,7 @@
 
 <script>
     import axios from 'axios';
-    import LogActivity from '@/components/TimeForm.vue';
+    import LogActivity from '@/components/ActivityForm.vue';
 
     export default {
         components: {
@@ -24,7 +24,7 @@
                     startTime: '',
                     endTime: '',
                     date: '',
-                    color: '#1976D2',
+                    color: '#17C359',
                 },
                 submitted: false,
             };
@@ -32,7 +32,6 @@
         methods: {
             handleSubmitForm() {
                 let apiURL = 'http://localhost:4000/activity-api/create-activity';
-                console.log('here');
                 axios
                     .post(apiURL, this.activity)
                     .then(() => {

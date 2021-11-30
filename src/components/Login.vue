@@ -102,7 +102,6 @@
                             this.failed = true;
                             return;
                         }
-                        this.signedIn = true;
                         localStorage.setItem('token', res.data);
                         this.$router.push('/calendar');
                     })
