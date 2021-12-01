@@ -49,7 +49,6 @@ activityRoute.route('/edit-activity/:id').get((req, res, next) => {
     }
   })
 })
-
 // Updates an activity in the database based on provided ID
 activityRoute.route('/update-activity/:id').put((req, res, next) => {
   ActivityModel.findByIdAndUpdate(req.params.id, {
@@ -64,18 +63,6 @@ activityRoute.route('/update-activity/:id').put((req, res, next) => {
   })
 })
 
-// Delete an acitivty in the database based on provided ID
-activityRoute.route('/delete-activity/:id').delete((req, res, next) => {
-  ActivityModel.findByIdAndRemove(req.params.id, (error, data) => {
-    if (error) {
-      return next(error);
-    } else {
-      res.status(200).json({
-        msg: data
-      })
-    }
-  })
-})
 // Delete an acitivty in the database based on provided ID
 activityRoute.route('/delete-activity/:id').delete((req, res, next) => {
   ActivityModel.findByIdAndRemove(req.params.id, (error, data) => {
