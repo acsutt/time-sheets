@@ -145,7 +145,23 @@ l<template>
                         >
                         </v-color-picker>
                     </v-menu>
-
+                    <v-btn
+                        v-if="this.crudType == 'edit'"
+                        @click.prevent="handleDelete"
+                        color="error"
+                        class="mr-4"
+                    >
+                        Delete
+                        <v-icon>mdi-delete-outline</v-icon>
+                    </v-btn>
+                    <v-btn
+                        @click="$router.go(-1)"
+                        color="warning"
+                        class="mr-4"
+                    >
+                        Cancel
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
                     <v-btn
                         color="success"
                         @click="handleSubmitForm"
@@ -165,12 +181,12 @@ l<template>
     export default {
         data() {
             return {
-                submitted: false,
                 startTimeMenu: false,
                 endTimeMenu: false,
             };
         },
-        props: ['activity'],
+        props: ['activity', 'crudType'],
+        // Validations for each of the inputs that have requirements such as max length or required
         validations: {
             activity: {
                 name: { required, maxLength: maxLength(32) },
@@ -221,13 +237,16 @@ l<template>
             },
         },
         methods: {
+            // Ensures that all validations are passed and then passes data back to parent component
             handleSubmitForm() {
-                this.submitted = true;
                 this.$v.$touch();
                 if (this.$v.$invalid) {
                     return;
                 }
                 this.$emit('update-activity', this.activity);
+            },
+            handleDelete() {
+                this.$emit('delete-activity', this.user);
             },
         },
     };

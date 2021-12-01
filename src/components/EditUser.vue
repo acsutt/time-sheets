@@ -22,39 +22,51 @@
             return {
                 Users: [],
                 user: {},
-                oldPasswordHash: '',
                 submitted: false,
             };
         },
         created() {
+            //Pulls back user's info
             let apiURL = `http://localhost:4000/user-api/get-user/`;
 
             axios.get(apiURL).then(res => {
                 this.user = res.data[0];
-                this.user.password = '';
+                this.user.password = ''; //Blanks out the password as it is hashed so can not be displayed
             });
         },
         methods: {
+            //Updates the user's info
             handleUpdateForm(id) {
                 let apiURL = `http://localhost:4000/user-api/update-user/${id}`;
 
                 axios
                     .put(apiURL, this.user)
                     .then(() => {
-                        this.$router.push('/calendar');
+                        this.$router.push('/calendar'); //Returns to calendar
                     })
                     .catch(error => {
                         console.log(error);
                     });
             },
+            //Deletes the user and all data in the database associated with their ID
             deleteUser(id) {
-                let apiURL = `http://localhost:4000/user-api/delete-user/${id}`;
+                let userApiURL = `http://localhost:4000/user-api/delete-user/${id}`;
+                let activityApiURL =
+                    'http://localhost:4000/activity-api/delete-all/';
 
                 if (window.confirm('Do you really want to delete?')) {
                     axios
-                        .delete(apiURL)
+                        .delete(activityApiURL)
                         .then(() => {
-                            this.$router.push('/');
+                            axios
+                                .delete(userApiURL)
+                                .then(() => {
+                                    localStorage.clear();
+                                    this.$router.push('/');
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                });
                         })
                         .catch(error => {
                             console.log(error);

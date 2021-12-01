@@ -1,6 +1,6 @@
 <template>
-
     <v-app id="app">
+        <!-- Simple table to contain all activities to allow easier viewing than on the calendar -->
         <v-data-table
             dark
             :headers="headers"
@@ -10,8 +10,8 @@
             calculate-widths
             loading-text
         >
+            <!-- Template contains the buttons to allow editing and deleting items from this table view -->
             <template v-slot:item.controls="activity">
-
                 <router-link :to="{name: 'edit-activity', params: { id: activity.item._id }}">
                     <v-btn color="primary">
                         <v-icon color="white">mdi-pencil</v-icon>
@@ -37,6 +37,7 @@
         data() {
             return {
                 Activities: [],
+                //Headers to be used by table with associated value
                 headers: [
                     { text: 'Activity Name', value: 'name' },
                     { text: 'Description', value: 'description' },
@@ -48,7 +49,8 @@
             };
         },
         created() {
-            let apiURL = 'http://localhost:4000/activity-api/';
+            //Pulls back all Activities to populate table
+            let apiURL = 'http://localhost:4000/activity-api/get-all';
             axios
                 .get(apiURL)
                 .then(res => {
@@ -62,8 +64,8 @@
                 });
         },
         methods: {
+            //Allows activities to be deleted
             deleteActivity(id) {
-                console.log(id);
                 let apiURL = `http://localhost:4000/activity-api/delete-activity/${id}`;
                 let indexOfArrayItem = this.Activities.findIndex(i => i._id === id);
 

@@ -1,5 +1,6 @@
 <template>
     <v-app>
+        <!-- Simple table to contain the user info -->
         <v-data-table
             dark
             :headers="headers"
@@ -8,6 +9,7 @@
             hide-default-footer
             calculate-widths
         >
+            <!-- Template contains the buttons to allow editing and deleting from this table view -->
             <template v-slot:item.controls="user">
                 <router-link :to="{name: 'edit-user', params: { id: user.item._id }}">
                     <v-btn color="primary">
@@ -15,7 +17,7 @@
                     </v-btn>
                 </router-link>
                 <v-btn
-                    @click.prevent="deleteActivity(user.item._id)"
+                    @click.prevent="deleteUser(user.item._id)"
                     class="ml-3"
                     color="error"
                 >
@@ -33,6 +35,7 @@
         data() {
             return {
                 Users: [],
+                //Headers to be used by table with associated value
                 headers: [
                     { text: 'Username', value: 'username' },
                     { text: 'Name', value: 'name' },
@@ -42,6 +45,7 @@
             };
         },
         created() {
+            //Pulls back current user's record to populate table
             let apiURL = 'http://localhost:4000/user-api/get-user/';
             axios
                 .get(apiURL)
@@ -53,15 +57,25 @@
                 });
         },
         methods: {
-            deleteActivity(id) {
-                let apiURL = `http://localhost:4000/user-api/delete-user/${id}`;
-                let indexOfArrayItem = this.Users.findIndex(i => i._id === id);
+            //Deletes the user and all data in the database associated with their ID
+            deleteUser(id) {
+                let userApiURL = `http://localhost:4000/user-api/delete-user/${id}`;
+                let activityApiURL =
+                    'http://localhost:4000/activity-api/delete-all/';
 
                 if (window.confirm('Do you really want to delete?')) {
                     axios
-                        .delete(apiURL)
+                        .delete(activityApiURL)
                         .then(() => {
-                            this.Users.splice(indexOfArrayItem, 1);
+                            axios
+                                .delete(userApiURL)
+                                .then(() => {
+                                    localStorage.clear();
+                                    this.$router.push('/');
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                });
                         })
                         .catch(error => {
                             console.log(error);

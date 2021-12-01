@@ -30,6 +30,7 @@
             };
         },
         methods: {
+            //Posts new activity to DB and resets the activity to default values
             handleSubmitForm() {
                 let apiURL = 'http://localhost:4000/activity-api/create-activity';
                 axios

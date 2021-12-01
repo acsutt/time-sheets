@@ -18,7 +18,9 @@ axios.interceptors.request.use((config) => {
   return Promise.reject(error);
 });
 
-
+// beforeEnter checks for the existence of the authentication token provided on a successful login
+// all pages that should not be accessible without being logged in have beforeEnter on their route
+// this will check the token and if it isn't present, will return to the home page if it isn't
 const beforeEnter = (to, from, next) => {
   const token = localStorage.getItem('token');
   if (token) {
@@ -59,7 +61,7 @@ const routes = [
     name: 'manage-user',
     component: () => import('@/components/ManageUser'),
     meta: {
-      title: 'Time Sheets - Manage Users',
+      title: 'Time Sheets - Manage User',
     },
     beforeEnter
   },
@@ -104,7 +106,7 @@ const routes = [
     name: 'manage-activities',
     component: () => import('../components/ManageActivities'),
     meta: {
-      title: 'Time Sheets - Edit',
+      title: 'Time Sheets - Manage Activities',
     },
     beforeEnter
   }

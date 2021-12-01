@@ -1,6 +1,7 @@
 <template>
     <div id="app">
         <v-app>
+            <!-- Creating the navbar that appears on top of every page -->
             <v-app-bar
                 color="accent-4"
                 dark
@@ -113,6 +114,7 @@
         },
         name: 'App',
         methods: {
+            //Removes the auth token and directs the user to the home page when logging out
             logOut() {
                 localStorage.clear();
                 this.$router.push('/');

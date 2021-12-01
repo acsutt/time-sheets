@@ -56,6 +56,7 @@
                 :close-on-content-click="false"
                 :activator="selectedElement"
                 offset-x
+                max-width="30%"
             >
                 <v-card
                     color="grey lighten-4"
@@ -67,7 +68,9 @@
                         dark
                     >
                         <router-link :to="{name: 'edit-activity', params: { id: selectedEvent.id }}">
-                            <v-icon>mdi-pencil</v-icon>
+                            <v-btn color="primary">
+                                <v-icon color="white">mdi-pencil</v-icon>
+                            </v-btn>
                         </router-link>
                         <v-spacer></v-spacer>
                         <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
@@ -83,15 +86,6 @@
                     <v-card-text>
                         <span v-html="selectedEvent.desc"></span>
                     </v-card-text>
-                    <!-- <v-card-actions>
-                        <v-btn
-                            text
-                            color="secondary"
-                            @click="selectedOpen = false"
-                        >
-                            Cancel
-                        </v-btn>
-                    </v-card-actions> -->
                 </v-card>
             </v-menu>
         </v-sheet>
@@ -104,6 +98,7 @@
     export default {
         data() {
             return {
+                //Setup of variables mainly for v-calendar
                 Activities: [],
                 loggedActivities: [],
                 type: 'week',
@@ -117,12 +112,12 @@
             };
         },
         created() {
-            let apiURL = 'http://localhost:4000/activity-api';
+            //Pulls back data to populate calendar then uses getEvents to format
+            let apiURL = 'http://localhost:4000/activity-api/get-all';
             axios
                 .get(apiURL)
                 .then(res => {
                     this.Activities = res.data;
-                    console.log;
                     this.getEvents();
                 })
                 .catch(error => {
@@ -130,8 +125,8 @@
                 });
         },
         methods: {
+            //Used for removing activity from the database and arrays storing it, forces update of page so that it disappears from calendar
             deleteActivity(id) {
-                console.log(id);
                 let apiURL = `http://localhost:4000/activity-api/delete-activity/${id}`;
                 let indexOfArrayItem = this.Activities.findIndex(i => i._id === id);
 
@@ -148,6 +143,7 @@
                         });
                 }
             },
+            //Given all of activity data for logged in user, splits it into format to be used by calendar to display properly
             getEvents() {
                 const events = [];
                 for (const activity of Object.entries(this.Activities)) {
@@ -172,6 +168,7 @@
                 }
                 this.events = events;
             },
+            //Handles activity clicking to show pop up menu with some info and edit and delete buttons
             showEvent({ nativeEvent, event }) {
                 const open = () => {
                     this.selectedEvent = event;
@@ -192,10 +189,12 @@
 
                 nativeEvent.stopPropagation();
             },
+            //Switches to show week view
             viewWeek({ date }) {
                 this.focus = date;
                 this.type = 'week';
             },
+            //Toggles between week view and month view
             changeType() {
                 if (this.type == 'week') {
                     this.type = 'month';

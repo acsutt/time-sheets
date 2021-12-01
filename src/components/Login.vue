@@ -28,7 +28,8 @@
                     color="success"
                     type="submit"
                     @click="handleSubmitForm"
-                >Login</v-btn>
+                >Login <v-icon right>mdi-check-circle-outline</v-icon>
+                </v-btn>
             </v-form>
         </v-col>
     </v-row>
@@ -45,12 +46,12 @@
                     username: '',
                     password: '',
                 },
-                Users: [],
                 token: '',
                 submitted: false,
                 failed: false,
             };
         },
+        //Validations so form can't be submitted until both username and password are filled in
         validations: {
             user: {
                 username: { required },
@@ -73,17 +74,6 @@
                 return errors;
             },
         },
-        created() {
-            let apiURL = 'http://localhost:4000/user-api';
-            axios
-                .get(apiURL)
-                .then(res => {
-                    this.Users = res.data;
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        },
         methods: {
             async handleSubmitForm() {
                 this.submitted = true;
@@ -93,17 +83,16 @@
                 }
 
                 let apiURL = 'http://localhost:4000/user-api/login';
-
                 this.token = await axios
                     .post(apiURL, this.user)
                     .then(res => {
                         if (!res.data) {
-                            alert('The username or password was incorrect');
+                            alert('The username or password was incorrect'); //Pop up to alert user of incorrect username or password
                             this.failed = true;
                             return;
                         }
-                        localStorage.setItem('token', res.data);
-                        this.$router.push('/calendar');
+                        localStorage.setItem('token', res.data); //On successful login, token is stored in local storage for use when accessing other pages
+                        this.$router.push('/calendar'); //Goes to calendar
                     })
                     .catch(error => {
                         console.log(error);
