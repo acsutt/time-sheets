@@ -5,7 +5,14 @@ A Time Sheets application using MEVN stack
 
 ## Start the project.
 ```
-Install Mongodb and NodeJS
+Install Mongodb
+Download at https://downloads.mongodb.com/compass/mongosh-1.1.5-x64.msi
+
+Install Node
+Download at https://nodejs.org/dist/v16.13.1/node-v16.13.1-x64.msi
+
+Clone the project via command line
+gh repo clone acsutt/time-sheets
 
 Get inside the project
 cd time-sheets

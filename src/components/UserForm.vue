@@ -6,6 +6,7 @@
                     ref="form"
                     @submit.prevent="handleSubmitForm"
                 >
+                    <!-- Textfield for entering full name, required -->
                     <v-text-field
                         v-model="user.name"
                         label="Full name"
@@ -15,7 +16,7 @@
                         @blur="$v.user.name.$touch()"
                     >
                     </v-text-field>
-
+                    <!-- Textfield for entering email address, validated to be an email, required -->
                     <v-text-field
                         v-model="user.email"
                         label="Email"
@@ -25,7 +26,7 @@
                         @blur="$v.user.email.$touch()"
                     >
                     </v-text-field>
-
+                    <!-- Textfield for entering username, validated to be unique, required and at least 4 characters -->
                     <v-text-field
                         v-model="user.username"
                         label="Username"
@@ -35,7 +36,7 @@
                         @blur="$v.user.username.$touch()"
                     >
                     </v-text-field>
-
+                    <!-- Textfield for entering password, prevents input being read, required and min length of 6 characters -->
                     <v-text-field
                         v-model="user.password"
                         label="Password"
@@ -46,7 +47,7 @@
                         @blur="$v.user.password.$touch()"
                     >
                     </v-text-field>
-
+                    <!-- Textfield for entering confirm password, prevents input being read, required and min length of 6 characters and must match password -->
                     <v-text-field
                         v-model="user.confirmPassword"
                         label="Confirm Password"
@@ -57,15 +58,31 @@
                         @blur="$v.user.confirmPassword.$touch()"
                     >
                     </v-text-field>
+                    <!-- Only shows the delete button if the form is being used to edit, not to create -->
                     <v-btn
                         v-if="this.crudType == 'edit'"
+                        @click.prevent="handleDelete"
                         color="error"
-                        @click="handleDelete"
-                    >Delete</v-btn>
+                        class="mr-4"
+                    >
+                        Delete
+                        <v-icon>mdi-delete-outline</v-icon>
+                    </v-btn>
+                    <v-btn
+                        @click="$router.go(-1)"
+                        color="warning"
+                        class="mr-4"
+                    >
+                        Cancel
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
                     <v-btn
                         color="success"
                         @click="handleSubmitForm"
-                    >Save</v-btn>
+                    >
+                        Save
+                        <v-icon right>mdi-check-circle-outline</v-icon>
+                    </v-btn>
                 </v-form>
             </v-app>
         </v-col>
@@ -76,6 +93,7 @@
     import { required, email, minLength, sameAs } from 'vuelidate/lib/validators';
 
     export default {
+        //Accepts values from parent component
         props: ['user', 'Users', 'crudType'],
         validations: {
             user: {
@@ -84,6 +102,7 @@
                 username: {
                     required,
                     minLength: minLength(4),
+                    //Custom validation checking the new username doesn't match any existing ones
                     isUnique(username) {
                         for (let index in this.Users) {
                             if (username === this.Users[index].username) {
@@ -94,6 +113,7 @@
                     },
                 },
                 password: { required, minLength: minLength(6) },
+                //Confirm password is checked to match password
                 confirmPassword: {
                     required,
                     sameAsPassword: sameAs('password'),
@@ -102,6 +122,7 @@
             },
         },
         computed: {
+            //Errors to show for each of the validations
             nameErrors() {
                 const errors = [];
                 if (!this.$v.user.name.$dirty) return errors;
@@ -156,6 +177,7 @@
                 }
                 this.$emit('update-user', this.user);
             },
+            //Depending on the whether the the user is saved or deleted a different result is emitted along with the user object
             handleDelete() {
                 this.$emit('delete-user', this.user);
             },

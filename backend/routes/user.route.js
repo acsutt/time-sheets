@@ -7,6 +7,7 @@ const { SECRET } = require('../constants');
 // model
 let UserModel = require('../models/User');
 
+// Verifys the token from local storage 
 const verifyUserToken = (req, res, next) => {
   try {
     req.user = jwt.verify(req.headers.authorization, SECRET);
@@ -16,6 +17,7 @@ const verifyUserToken = (req, res, next) => {
     return res.status(401);
   }
 }
+// Hashes the given password then creates a new user in the database
 userRoute.route('/register').post( async (req, res, next) => {
   let {name, username, password, email, admin} = req.body;
   password = await bcrypt.hash(password, 10);
@@ -33,7 +35,9 @@ userRoute.route('/register').post( async (req, res, next) => {
     }
   })
 });
-
+// Checks the provided username in the database for a matching username
+// Then compares the hash of the given password to the one stored in record with matching
+// If they both match, a token is generated using the username, id and secret constant value then returns the token
 userRoute.route('/login').post( async (req, res) => {
   let {username, password} = req.body;
   if ( await UserModel.findOne({ username: username }) === null) {
@@ -49,23 +53,13 @@ userRoute.route('/login').post( async (req, res) => {
     return res.json(false)
   }
 });
-
-userRoute.route('/').get((req, res, next) => {
-  UserModel.find((error, data) => {
-    if (error) {
-      return next(error)
-    } else {
-      res.json(data)
-    }
-  })
-});
-
+// Gets the user from the database matching the id of the signed in user making the request
 userRoute.route('/get-user').get(verifyUserToken, async (req, res) => {
     const userModel = await UserModel.find({ _id: req.user._id })
     res.json(userModel);
 });
 
-//Edit
+// Gets the data of with the ID matching the one provided
 userRoute.route('/edit-user/:id').get(async (req, res, next) => {
   UserModel.findById(req.params.id, (error, data) => {
     if (error) {
@@ -76,7 +70,7 @@ userRoute.route('/edit-user/:id').get(async (req, res, next) => {
   })
 })
 
-// Update
+// Updates the user record in the DB that matches the ID provided
 userRoute.route('/update-user/:id').put((req, res, next) => {
   UserModel.findByIdAndUpdate(req.params.id, {
     $set: req.body
@@ -90,7 +84,7 @@ userRoute.route('/update-user/:id').put((req, res, next) => {
   })
 })
 
-// Delete by id
+// Deletes the user record in the DB that matches the ID provided
 userRoute.route('/delete-user/:id').delete((req, res, next) => {
   UserModel.findByIdAndRemove(req.params.id, (error, data) => {
     if (error) {

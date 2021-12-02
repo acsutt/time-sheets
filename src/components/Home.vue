@@ -40,10 +40,10 @@
     export default {
         methods: {
             login() {
-                this.$router.push('/login');
+                this.$router.push('/login'); //Directs to login page
             },
             register() {
-                this.$router.push('/register');
+                this.$router.push('/register'); //Directs to register page
             },
         },
     };

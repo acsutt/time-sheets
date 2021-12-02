@@ -19,6 +19,7 @@
         },
         data() {
             return {
+                //Creates default blank template for user
                 user: {
                     name: '',
                     email: '',
@@ -32,6 +33,7 @@
             };
         },
         created() {
+            //Necessary to pull back all existing users in order to prevent two identical usernames
             let apiURL = 'http://localhost:4000/user-api';
             axios
                 .get(apiURL)
@@ -44,6 +46,7 @@
         },
         methods: {
             handleSubmitForm() {
+                //Creates new user with
                 let apiURL = 'http://localhost:4000/user-api/register';
 
                 axios
