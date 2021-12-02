@@ -193,9 +193,12 @@ l<template>
                 startTime: { required },
                 endTime: {
                     required,
-                    isAfterStart(endTime, startTime) {
-                        if (startTime > endTime) {
-                            return true;
+                    isAfterStart(endTime) {
+                        let date = this.activity.date;
+                        let start = new Date(date + ' ' + this.activity.startTime);
+                        let end = new Date(date + ' ' + endTime);
+                        if (start > end) {
+                            return false;
                         }
                         return true;
                     },
