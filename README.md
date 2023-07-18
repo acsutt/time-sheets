@@ -31,7 +31,7 @@ Start the mongodb server.
 Start node server on http://localhost:4000/api 
 ```nodemon```
 
-## Upon first running you will need to register a new account then sign in.
+### Upon first running you will need to register a new account then sign in.
 The email used when registering does not have to be valid
 
 
