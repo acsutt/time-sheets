@@ -3,10 +3,10 @@ University project for Architectures and Frameworks Module
 A Time Sheets application using MEVN stack
 
 
-## Start the project.
+## How to setup the project.
 ```
-Install Mongodb
-Download at https://downloads.mongodb.com/compass/mongosh-1.1.5-x64.msi
+Install Mongodb Shell
+Download at https://www.mongodb.com/try/download/shell
 
 Install Node
 Download at https://nodejs.org/dist/v16.13.1/node-v16.13.1-x64.msi
